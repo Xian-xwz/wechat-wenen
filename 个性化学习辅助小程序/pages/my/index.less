@@ -1,0 +1,186 @@
+.my {
+  height: 100vh;  // 使用完整视口高度
+  overflow-y: auto;
+  background-color: #F5F7FA;
+  // 页面顶部不需要 padding，由导航栏组件内部处理安全区域
+  padding-bottom: calc(32rpx + env(safe-area-inset-bottom) + 100rpx);  // 增加 tabBar 高度
+  box-sizing: border-box;
+
+  --td-navbar-bg-color: transparent;
+
+  // 背景图从顶部开始，覆盖状态栏区域
+  .nav-bg {
+    width: 750rpx;
+    height: calc(200rpx + env(safe-area-inset-top));
+    position: fixed;
+    top: 0;
+    z-index: 1;
+  }
+
+  // 导航栏组件添加安全区域padding，防止内容被状态栏遮挡
+  nav {
+    position: relative;
+    z-index: 2;
+    padding-top: env(safe-area-inset-top);
+  }
+
+  &-info {
+    position: relative;
+    z-index: 2;
+    background-color: #fff;
+    border-radius: 24rpx;
+    margin: calc(88rpx + env(safe-area-inset-top)) 32rpx 24rpx 32rpx;  // 导航栏高度 + 安全区域
+    padding-bottom: 32rpx;
+    overflow: hidden;
+
+    .cell-class-title {
+      font-weight: 600 !important;
+    }
+
+    .cell-class-center {
+      display: flex;
+      align-items: center !important;
+    }
+
+    // 头像margin-right
+    --td-spacer-1: 32rpx;
+
+    &__person {
+      .name {
+        line-height: 48rpx;
+        font-size: 32rpx;
+        color: #000000e6;
+        font-weight: 600;
+      }
+
+      .level-info {
+        display: flex;
+        align-items: center;
+        margin-top: 8rpx;
+        
+        .level {
+          font-size: 24rpx;
+          color: #0052D9;
+          font-weight: 600;
+          background: rgba(0, 82, 217, 0.1);
+          padding: 4rpx 12rpx;
+          border-radius: 8rpx;
+          margin-right: 16rpx;
+        }
+        
+        .points {
+          font-size: 24rpx;
+          color: #FAAD14;
+          font-weight: 500;
+        }
+      }
+
+      .tags {
+        display: flex;
+        margin-top: 16rpx;
+
+        --td-text-color-primary: #000000e6;
+        --td-tag-medium-font-size: 20rpx;
+        --td-tag-medium-icon-size: 24rpx;
+      }
+
+      .tag:not(:last-child) {
+        margin-right: 16rpx;
+      }
+    }
+
+    // 学习统计
+    .learning-stats {
+      display: flex;
+      justify-content: space-around;
+      padding: 24rpx 0 0;
+      margin-top: 24rpx;
+      border-top: 1rpx solid #f0f0f0;
+
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .stat-value {
+          font-size: 36rpx;
+          font-weight: 700;
+          color: #333;
+        }
+
+        .stat-label {
+          font-size: 24rpx;
+          color: #999;
+          margin-top: 4rpx;
+        }
+      }
+    }
+  }
+
+  // 学习功能区
+  .learning-section {
+    background-color: #fff;
+    border-radius: 24rpx;
+    margin: 0 32rpx 24rpx;
+    padding: 24rpx;
+
+    .section-title {
+      font-size: 28rpx;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 16rpx;
+      display: block;
+    }
+
+    .grid-class {
+      --td-grid-item-padding: 20rpx 0;
+    }
+  }
+
+  // 兴趣标签区
+  .interest-section {
+    background-color: #fff;
+    border-radius: 24rpx;
+    margin: 0 32rpx 24rpx;
+    padding: 24rpx;
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16rpx;
+
+      .section-title {
+        font-size: 28rpx;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .edit-link {
+        font-size: 26rpx;
+        color: #0052D9;
+      }
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16rpx;
+
+      .interest-tag {
+        --td-tag-primary-light-color: rgba(0, 82, 217, 0.1);
+        --td-tag-primary-color: #0052D9;
+      }
+
+      .no-tags {
+        font-size: 26rpx;
+        color: #999;
+      }
+    }
+  }
+
+  // 设置列表
+  t-cell-group {
+    margin: 0 32rpx;
+  }
+}

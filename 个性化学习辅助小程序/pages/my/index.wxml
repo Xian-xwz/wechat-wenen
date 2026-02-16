@@ -1,0 +1,103 @@
+<t-toast id="t-toast" />
+
+<view class="my">
+  <image class="nav-bg" src="/static/bg_navbar.png" />
+  <nav title-text="我的" />
+  
+  <!-- 用户信息区 -->
+  <view class="my-info">
+    <t-cell-group>
+      <t-cell wx:if="{{isLoad}}" bordered="{{false}}">
+        <t-avatar image="{{personalInfo.image}}" slot="left-icon" size="large" />
+        <view class="my-info__person" slot="description">
+          <view class="name">{{personalInfo.name}}</view>
+          <view class="level-info">
+            <text class="level">Lv.{{userLevel}}</text>
+            <text class="points">{{userPoints}} 积分</text>
+          </view>
+          <view class="tags">
+            <t-tag class="tag" variant="light" icon="star">{{personalInfo.star}}</t-tag>
+            <t-tag class="tag" variant="light" icon="location">{{personalInfo.city}}</t-tag>
+          </view>
+        </view>
+        <t-icon slot="right-icon" name="edit" size="40rpx" color="#000000e6" bindtap="onNavigateTo" />
+      </t-cell>
+      <t-cell
+        wx:if="{{!isLoad}}"
+        title="请先登录/注册"
+        bordered="{{false}}"
+        t-class-title="cell-class-title"
+        t-class-center="cell-class-center"
+        bindtap="onLogin"
+      >
+        <t-avatar slot="left-icon" icon="user" size="128rpx" />
+      </t-cell>
+    </t-cell-group>
+    
+    <!-- 学习统计 -->
+    <view class="learning-stats" wx:if="{{isLoad}}">
+      <view class="stat-item">
+        <text class="stat-value">{{learningStats.totalDays}}</text>
+        <text class="stat-label">学习天数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{learningStats.totalQuestions}}</text>
+        <text class="stat-label">刷题总数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{learningStats.masteredPoints}}</text>
+        <text class="stat-label">掌握知识点</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 学习功能入口 -->
+  <view class="learning-section">
+    <view class="section-title">学习功能</view>
+    <t-grid t-class="grid-class" column="{{4}}">
+      <t-grid-item
+        wx:for="{{learningGridList}}"
+        wx:for-item="gridItem"
+        wx:key="type"
+        text="{{gridItem.name}}"
+        icon="{{gridItem.icon}}"
+        data-data="{{gridItem}}"
+        bindclick="onLearningItemClick"
+      />
+    </t-grid>
+  </view>
+
+  <!-- 兴趣标签 -->
+  <view class="interest-section" wx:if="{{isLoad}}">
+    <view class="section-header">
+      <text class="section-title">我的兴趣标签</text>
+      <text class="edit-link" bindtap="editInterests">编辑</text>
+    </view>
+    <view class="tag-list">
+      <t-tag 
+        wx:for="{{interestTags}}" 
+        wx:key="index"
+        class="interest-tag"
+        variant="light"
+        theme="primary"
+      >{{item}}</t-tag>
+      <text wx:if="{{interestTags.length === 0}}" class="no-tags">暂无兴趣标签</text>
+    </view>
+  </view>
+
+  <!-- 设置列表 -->
+  <t-cell-group theme="card">
+    <t-cell
+      wx:for="{{settingList}}"
+      wx:for-item="item"
+      wx:key="type"
+      title="{{item.name}}"
+      url="{{item.url}}"
+      leftIcon="{{item.icon}}"
+      hover
+      arrow
+      data-data="{{item}}"
+      bindclick="onEleClick"
+    />
+  </t-cell-group>
+</view>

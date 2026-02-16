@@ -1,0 +1,104 @@
+<!-- 在线答题页面 -->
+<t-navbar title="在线答题" left-arrow />
+
+<view class="quiz-page">
+  <!-- 进度头部 -->
+  <view class="quiz-header">
+    <view class="progress-info">
+      <text class="question-number">题目 {{currentIndex + 1}}/{{questions.length}}</text>
+      <view class="timer">
+        <t-icon name="time" size="32rpx" color="#666" />
+        <text class="timer-text">{{formatTime(timer)}}</text>
+      </view>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{(currentIndex + 1) / questions.length * 100}}%"></view>
+    </view>
+  </view>
+
+  <!-- 题目内容区 -->
+  <scroll-view class="quiz-content" scroll-y>
+    <view class="question-card">
+      <!-- 题目标题 -->
+      <view class="question-title">
+        <t-tag size="small" variant="light" class="question-type">{{currentQuestion.type}}</t-tag>
+        <text class="title-text">{{currentQuestion.title}}</text>
+      </view>
+
+      <!-- 选项区 -->
+      <view class="options-list">
+        <view 
+          wx:for="{{currentQuestion.options}}" 
+          wx:key="index"
+          class="option-item {{selectedAnswer === index ? 'option-item--selected' : ''}} {{showResult && index === currentQuestion.correct ? 'option-item--correct' : ''}} {{showResult && selectedAnswer === index && index !== currentQuestion.correct ? 'option-item--wrong' : ''}}"
+          bindtap="selectOption"
+          data-index="{{index}}"
+        >
+          <view class="option-label">{{optionLabels[index]}}</view>
+          <text class="option-text">{{item}}</text>
+          <t-icon 
+            wx:if="{{showResult && index === currentQuestion.correct}}"
+            name="check-circle-filled" 
+            size="40rpx" 
+            color="#52C41A" 
+            class="option-icon"
+          />
+          <t-icon 
+            wx:if="{{showResult && selectedAnswer === index && index !== currentQuestion.correct}}"
+            name="close-circle-filled" 
+            size="40rpx" 
+            color="#FF4D4F" 
+            class="option-icon"
+          />
+        </view>
+      </view>
+
+      <!-- 答案解析 -->
+      <view class="answer-analysis" wx:if="{{showResult}}">
+        <view class="analysis-header">
+          <text class="analysis-title">答案解析</text>
+          <t-tag size="small" type="{{isCorrect ? 'success' : 'danger'}}">
+            {{isCorrect ? '回答正确' : '回答错误'}}
+          </t-tag>
+        </view>
+        <text class="analysis-content">{{currentQuestion.analysis}}</text>
+      </view>
+    </view>
+
+    <!-- 底部留白 -->
+    <view class="bottom-spacer"></view>
+  </scroll-view>
+
+  <!-- 操作区 -->
+  <view class="quiz-footer">
+    <view class="footer-actions">
+      <t-button 
+        wx:if="{{!showResult}}"
+        theme="primary" 
+        size="large" 
+        block
+        disabled="{{selectedAnswer === null}}"
+        bindtap="submitAnswer"
+      >
+        提交答案
+      </t-button>
+      
+      <view class="result-actions" wx:if="{{showResult}}">
+        <t-button 
+          theme="light" 
+          size="large"
+          bindtap="addToWrongBook"
+        >
+          加入错题本
+        </t-button>
+        <t-button 
+          theme="primary" 
+          size="large"
+          bindtap="nextQuestion"
+        >
+          {{isLastQuestion ? '完成' : '下一题'}}
+        </t-button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,24 @@
+name: convert-docs
+description: 将 PDF、DOCX、DOC 文档转换为 Markdown 格式的工具
+version: 1.0.0
+author: xianwenen
+
+commands:
+  convert:
+    description: 转换文档为 Markdown
+    parameters:
+      files:
+        type: array
+        description: 要转换的文件路径列表
+        required: true
+      output:
+        type: string
+        description: 输出目录（可选）
+        required: false
+
+entry: index.py
+main: main
+
+dependencies:
+  - pdfplumber
+  - python-docx

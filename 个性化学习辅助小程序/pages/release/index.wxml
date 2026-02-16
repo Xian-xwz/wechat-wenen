@@ -1,0 +1,91 @@
+<!-- 帖子发布页 -->
+<t-navbar title="发布帖子" left-arrow bind:go-back="goBack" />
+
+<view class="release-page">
+  <scroll-view class="release-form" scroll-y>
+    <!-- 帖子类型选择 -->
+    <view class="form-section">
+      <view class="section-label">帖子类型</view>
+      <view class="type-selector">
+        <view 
+          wx:for="{{postTypes}}" 
+          wx:key="value"
+          class="type-item {{selectedType === item.value ? 'type-item--active' : ''}}"
+          bindtap="selectType"
+          data-type="{{item.value}}"
+        >
+          <text>{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 标题输入 -->
+    <view class="form-section">
+      <view class="section-label">标题</view>
+      <t-input
+        value="{{title}}"
+        placeholder="请输入帖子标题"
+        maxlength="50"
+        adjust-position="{{false}}"
+        bind:change="onTitleChange"
+        bind:focus="onInputFocus"
+      />
+    </view>
+
+    <!-- 内容输入 -->
+    <view class="form-section">
+      <view class="section-label">内容</view>
+      <t-textarea 
+        value="{{content}}"
+        placeholder="分享你的知识、经验或问题..."
+        maxlength="2000"
+        disableDefaultPadding="{{true}}"
+        adjust-position="{{false}}"
+        indicator
+        bind:change="onContentChange"
+        bind:focus="onInputFocus"
+      />
+    </view>
+
+    <!-- 标签选择 -->
+    <view class="form-section">
+      <view class="section-label">添加标签</view>
+      <view class="tag-selector">
+        <view 
+          wx:for="{{availableTags}}" 
+          wx:key="index"
+          class="tag-item {{item.selected ? 'tag-item--selected' : ''}}"
+          bindtap="toggleTag"
+          data-index="{{index}}"
+        >
+          <text># {{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部留白 -->
+    <view class="bottom-spacer"></view>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="footer-bar">
+    <t-button 
+      theme="light" 
+      size="large" 
+      block
+      bindtap="saveDraft"
+      disabled="{{isPublishing}}"
+    >
+      存草稿
+    </t-button>
+    <t-button 
+      theme="primary" 
+      size="large" 
+      block
+      loading="{{isPublishing}}"
+      bindtap="publish"
+    >
+      发布
+    </t-button>
+  </view>
+</view>

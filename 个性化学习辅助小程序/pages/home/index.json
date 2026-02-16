@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-message": "tdesign-miniprogram/message/message",
+    "ec-canvas": "echarts-for-weixin/index"
+  }
+}

@@ -1,0 +1,170 @@
+<t-navbar title="个性化推荐" left-arrow bind:go-back="goBack" />
+
+<view class="recommend-page">
+  <!-- 冷启动：兴趣标签选择（新用户显示） -->
+  <view class="cold-start-section" wx:if="{{isColdStart}}">
+    <view class="cold-start-header">
+      <text class="cold-start-title">选择你感兴趣的学习方向</text>
+      <text class="cold-start-subtitle">我们将为你推荐个性化的学习内容</text>
+    </view>
+    
+    <view class="interest-tags">
+      <view 
+        wx:for="{{availableTags}}" 
+        wx:key="index"
+        class="tag-item {{item.selected ? 'tag-item--selected' : ''}}"
+        bindtap="toggleTag"
+        data-index="{{index}}"
+      >
+        <text>{{item.name}}</text>
+        <t-icon wx:if="{{item.selected}}" name="check" size="24rpx" color="#fff" />
+      </view>
+    </view>
+    
+    <view class="cold-start-actions">
+      <t-button 
+        theme="primary" 
+        size="large" 
+        block
+        bindtap="confirmInterests"
+        disabled="{{selectedTags.length === 0}}"
+      >
+        开始个性化学习 ({{selectedTags.length}})
+      </t-button>
+    </view>
+  </view>
+
+  <!-- 推荐内容（已选择兴趣标签后显示） -->
+  <view class="recommend-content" wx:else>
+    <!-- 搜索和筛选 -->
+    <view class="search-section">
+      <t-search
+        t-class-input-container="t-class__input-container"
+        t-class-input="t-search__input"
+        value="{{searchValue}}"
+        leftIcon="search"
+        action="取消"
+        shape="round"
+        placeholder="搜索题目、知识点"
+        bind:submit="handleSubmit"
+        bind:action-click="actionHandle"
+      ></t-search>
+      
+      <!-- 兴趣标签筛选 -->
+      <scroll-view class="filter-tags" scroll-x>
+        <view class="filter-tag {{currentFilter === 'all' ? 'filter-tag--active' : ''}}" bindtap="setFilter" data-filter="all">
+          全部
+        </view>
+        <view 
+          wx:for="{{userInterests}}" 
+          wx:key="index"
+          class="filter-tag {{currentFilter === item ? 'filter-tag--active' : ''}}"
+          bindtap="setFilter"
+          data-filter="{{item}}"
+        >
+          {{item}}
+        </view>
+      </scroll-view>
+    </view>
+
+    <!-- 推荐列表 -->
+    <scroll-view class="recommend-list" scroll-y refresher-enabled bindrefresherrefresh="onRefresh" refresher-triggered="{{isRefreshing}}">
+      <!-- 今日推荐 -->
+      <view class="section" wx:if="{{dailyRecommend.length > 0}}">
+        <view class="section-header">
+          <text class="section-title">今日推荐</text>
+          <text class="section-desc">根据你的学习情况精选</text>
+        </view>
+        <view class="card-list">
+          <view 
+            wx:for="{{dailyRecommend}}" 
+            wx:key="id"
+            class="recommend-card"
+            bindtap="goToDetail"
+            data-id="{{item.id}}"
+          >
+            <view class="card-tag" style="background-color: {{item.tagColor}}">{{item.tag}}</view>
+            <view class="card-content">
+              <text class="card-title">{{item.title}}</text>
+              <text class="card-desc">{{item.description}}</text>
+              <view class="card-meta">
+                <text class="meta-item">难度: {{item.difficulty}}</text>
+                <text class="meta-item">{{item.completedCount}}人已学</text>
+              </view>
+            </view>
+            <view class="card-action">
+              <t-button theme="primary" size="small">开始学习</t-button>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 热门内容 -->
+      <view class="section">
+        <view class="section-header">
+          <text class="section-title">热门学习</text>
+          <text class="section-desc">大家都在学</text>
+        </view>
+        <view class="card-list">
+          <view 
+            wx:for="{{hotContent}}" 
+            wx:key="id"
+            class="recommend-card recommend-card--compact"
+            bindtap="goToDetail"
+            data-id="{{item.id}}"
+          >
+            <view class="card-content">
+              <view class="card-title-row">
+                <text class="card-title">{{item.title}}</text>
+                <t-tag size="small" variant="light">{{item.type}}</t-tag>
+              </view>
+              <view class="card-meta">
+                <text class="meta-item">{{item.tag}}</text>
+                <text class="meta-item meta-item--hot">{{item.hot}}热度</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 猜你喜欢 -->
+      <view class="section" wx:if="{{guessYouLike.length > 0}}">
+        <view class="section-header">
+          <text class="section-title">猜你喜欢</text>
+          <text class="section-desc">基于你的兴趣推荐</text>
+        </view>
+        <view class="card-list">
+          <view 
+            wx:for="{{guessYouLike}}" 
+            wx:key="id"
+            class="recommend-card"
+            bindtap="goToDetail"
+            data-id="{{item.id}}"
+          >
+            <view class="card-tag" style="background-color: {{item.tagColor}}">{{item.tag}}</view>
+            <view class="card-content">
+              <text class="card-title">{{item.title}}</text>
+              <text class="card-desc">{{item.description}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 底部 -->
+      <view class="list-footer">
+        <text>没有更多推荐了</text>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+
+<t-dialog
+  visible="{{dialogShow}}"
+  content="{{dialog.message}}"
+  bindconfirm="confirm"
+  bind:close="close"
+  confirm-btn="确定"
+  cancel-btn="{{dialog.showCancelButton ? '取消' : null}}"
+  t-class-confirm="dialog__button-confirm"
+  t-class-cancel="dialog__button-cancel"
+/>

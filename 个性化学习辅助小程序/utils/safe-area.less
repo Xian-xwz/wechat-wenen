@@ -1,0 +1,62 @@
+// 安全区域工具类
+// 提供安全区域适配的 CSS 变量和公共类
+
+// 安全区域变量（带降级方案）
+@safe-area-top: env(safe-area-inset-top, 0);
+@safe-area-bottom: env(safe-area-inset-bottom, 0);
+@safe-area-left: env(safe-area-inset-left, 0);
+@safe-area-right: env(safe-area-inset-right, 0);
+
+// 基础页面容器 - 适配安全区域
+.safe-area-page {
+  height: 100vh;
+  padding-top: @safe-area-top;
+  padding-bottom: @safe-area-bottom;
+  box-sizing: border-box;
+}
+
+// 滚动容器 - 解决 flex 子项滚动问题
+.scroll-container {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+// 固定底部栏 - 适配安全区域
+.fixed-bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-bottom: @safe-area-bottom;
+  background-color: #fff;
+  border-top: 1rpx solid #f0f0f0;
+  z-index: 100;
+}
+
+// TabBar 底部留白（用于内容区域）
+.tabbar-spacer {
+  height: calc(100rpx + @safe-area-bottom); // TabBar 高度 + 安全区域
+}
+
+// 导航栏顶部留白（用于内容区域）
+.navbar-spacer {
+  height: calc(88rpx + @safe-area-top); // 导航栏高度 + 安全区域
+}
+
+// 安全区域辅助类
+.safe-area-padding-top {
+  padding-top: @safe-area-top !important;
+}
+
+.safe-area-padding-bottom {
+  padding-bottom: @safe-area-bottom !important;
+}
+
+.safe-area-margin-top {
+  margin-top: @safe-area-top !important;
+}
+
+.safe-area-margin-bottom {
+  margin-bottom: @safe-area-bottom !important;
+}

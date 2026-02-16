@@ -1,0 +1,89 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/search/index",
+    "pages/message/index",
+    "pages/chat/index",
+    "pages/my/index"
+  ],
+  "usingComponents": {
+    "t-toast": "tdesign-miniprogram/toast/toast"
+  },
+  "subpackages": [
+    {
+      "root": "pages/my/info-edit",
+      "name": "edit",
+      "pages": ["index"]
+    },
+    {
+      "root": "pages/login",
+      "name": "login",
+      "pages": ["login"]
+    },
+    {
+      "root": "pages/loginCode",
+      "name": "loginCode",
+      "pages": ["loginCode"]
+    },
+    {
+      "root": "pages/setting",
+      "name": "setting",
+      "pages": ["index"]
+    },
+    {
+      "root": "pages/release",
+      "name": "release",
+      "pages": ["index"]
+    },
+    {
+      "root": "pages/quiz",
+      "name": "quiz",
+      "pages": ["index"]
+    },
+    {
+      "root": "pages/wrongbook",
+      "name": "wrongbook",
+      "pages": ["index"]
+    },
+    {
+      "root": "pages/learning-path",
+      "name": "learningPath",
+      "pages": ["index"]
+    }
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "个性化学习辅助",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "custom": true,
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "学习看板"
+      },
+      {
+        "pagePath": "pages/search/index",
+        "text": "推荐"
+      },
+      {
+        "pagePath": "pages/message/index",
+        "text": "社区"
+      },
+      {
+        "pagePath": "pages/chat/index",
+        "text": "助手"
+      },
+      {
+        "pagePath": "pages/my/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "resolveAlias": {
+    "~/*": "/*"
+  },
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,119 @@
+<!-- 自适应学习路径页面 -->
+<view class="learning-path-page">
+  <!-- 导航栏 -->
+  <t-navbar title="学习路径" left-arrow class="navbar" />
+  
+  <!-- 路径概览 -->
+  <view class="path-overview">
+    <view class="overview-card">
+      <view class="overview-header">
+        <text class="path-name">前端开发工程师路线</text>
+        <t-tag size="small" type="primary">进行中</t-tag>
+      </view>
+      <view class="progress-section">
+        <view class="progress-info">
+          <text class="progress-text">整体进度 {{progress}}%</text>
+          <text class="node-count">已完成 {{completedNodes}}/{{totalNodes}} 个节点</text>
+        </view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{progress}}%"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 路径时间轴 -->
+  <scroll-view class="path-timeline" scroll-y>
+    <view class="timeline-list">
+      <view 
+        wx:for="{{pathNodes}}" 
+        wx:key="id"
+        class="timeline-item {{item.status}}"
+      >
+        <!-- 节点连接线 -->
+        <view class="timeline-line" wx:if="{{index < pathNodes.length - 1}}"></view>
+
+        <!-- 节点内容 -->
+        <view class="timeline-content">
+          <!-- 节点图标 -->
+          <view class="node-icon">
+            <t-icon 
+              wx:if="{{item.status === 'completed'}}"
+              name="check-circle-filled" 
+              size="48rpx" 
+              color="#52C41A" 
+            />
+            <t-icon 
+              wx:elif="{{item.status === 'current'}}"
+              name="location" 
+              size="48rpx" 
+              color="#0052D9" 
+            />
+            <t-icon 
+              wx:else
+              name="circle" 
+              size="48rpx" 
+              color="#ccc" 
+            />
+          </view>
+
+          <!-- 节点卡片 -->
+          <view class="node-card {{item.status}}" bindtap="viewNodeDetail" data-id="{{item.id}}">
+            <view class="card-header">
+              <text class="node-title">{{item.title}}</text>
+              <t-tag 
+                size="small" 
+                variant="light"
+                class="status-tag"
+              >
+                {{item.status === 'completed' ? '已完成' : item.status === 'current' ? '学习中' : '未开始'}}
+              </t-tag>
+            </view>
+
+            <text class="node-desc">{{item.description}}</text>
+
+            <view class="node-meta">
+              <view class="meta-item">
+                <t-icon name="time" size="24rpx" color="#999" />
+                <text>{{item.duration}}</text>
+              </view>
+              <view class="meta-item">
+                <t-icon name="file-copy" size="24rpx" color="#999" />
+                <text>{{item.resourceCount}} 个资源</text>
+              </view>
+            </view>
+
+            <!-- 前置知识点提示 -->
+            <view class="prerequisites" wx:if="{{item.prerequisites && item.prerequisites.length > 0 && item.status === 'pending'}}">
+              <text class="prereq-title">前置知识：</text>
+              <text class="prereq-list">{{item.prerequisites.join('、')}}</text>
+            </view>
+
+            <!-- 操作按钮 -->
+            <view class="node-actions" wx:if="{{item.status === 'current'}}">
+              <t-button theme="primary" size="small" block bindtap="startLearning" data-id="{{item.id}}">
+                继续学习
+              </t-button>
+            </view>
+            <view class="node-actions" wx:if="{{item.status === 'completed'}}">
+              <t-button theme="light" size="small" block bindtap="reviewNode" data-id="{{item.id}}">
+                复习巩固
+              </t-button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部留白 -->
+    <view class="bottom-spacer"></view>
+
+    <!-- 底部建议 -->
+    <view class="bottom-suggestion" wx:if="{{suggestion}}">
+      <t-icon name="tips" size="32rpx" color="#FAAD14" />
+      <text class="suggestion-text">{{suggestion}}</text>
+    </view>
+  </scroll-view>
+
+
+</view>

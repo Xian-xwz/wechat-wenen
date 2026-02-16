@@ -1,0 +1,229 @@
+/* 个性化推荐页面样式 */
+
+page {
+  background-color: #F5F7FA;
+}
+
+
+
+/* 页面基础样式 - 整页滚动方案 */
+.recommend-page {
+  min-height: 100vh;
+  overflow-y: auto;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: calc(32rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+/* 冷启动区域 */
+.cold-start-section {
+  padding: 40rpx 32rpx;
+  box-sizing: border-box;
+}
+
+.cold-start-header {
+  text-align: center;
+  margin-bottom: 48rpx;
+}
+
+.cold-start-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.cold-start-subtitle {
+  display: block;
+  font-size: 28rpx;
+  color: #999;
+}
+
+.interest-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  margin-bottom: 48rpx;
+}
+
+.tag-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 32rpx;
+  background-color: #fff;
+  border: 2rpx solid #e8e8e8;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  color: #666;
+  transition: all 0.3s;
+  box-sizing: border-box;
+}
+
+.tag-item--selected {
+  background-color: #0052D9;
+  border-color: #0052D9;
+  color: #fff;
+}
+
+.tag-item t-icon {
+  margin-left: 8rpx;
+}
+
+.cold-start-actions {
+  margin-top: 48rpx;
+}
+
+/* 推荐内容区域 - 整页滚动方案 */
+.recommend-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-section {
+  background-color: #fff;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  box-sizing: border-box;
+}
+
+.t-class__input-container {
+  background-color: #F5F7FA !important;
+}
+
+.filter-tags {
+  margin-top: 24rpx;
+  white-space: nowrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.filter-tag {
+  display: inline-block;
+  padding: 12rpx 24rpx;
+  margin-right: 16rpx;
+  background-color: #F5F7FA;
+  border-radius: 28rpx;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.filter-tag--active {
+  background-color: #0052D9;
+  color: #fff;
+}
+
+/* 推荐列表 - 整页滚动方案 */
+.recommend-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.section {
+  margin-bottom: 24rpx;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0 32rpx;
+  margin-bottom: 16rpx;
+  box-sizing: border-box;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.section-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.card-list {
+  padding: 0 32rpx;
+  box-sizing: border-box;
+}
+
+.recommend-card {
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+
+.recommend-card--compact {
+  padding: 20rpx 24rpx;
+  box-sizing: border-box;
+}
+
+.card-tag {
+  display: inline-block;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  color: #fff;
+  margin-bottom: 16rpx;
+}
+
+.card-content {
+  margin-bottom: 16rpx;
+}
+
+.card-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12rpx;
+  line-height: 1.4;
+}
+
+.card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.card-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.5;
+}
+
+.card-meta {
+  display: flex;
+  gap: 24rpx;
+  margin-top: 16rpx;
+}
+
+.meta-item {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.meta-item--hot {
+  color: #FF4D4F;
+}
+
+.card-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.list-footer {
+  text-align: center;
+  padding: 48rpx 0 calc(48rpx + env(safe-area-inset-bottom));
+  color: #999;
+  font-size: 26rpx;
+}

@@ -1,0 +1,114 @@
+<!-- 知识社区列表页 -->
+<view class="community-page">
+  <!-- 顶部导航 -->
+  <view class="community-header">
+    <text class="header-title">知识社区</text>
+  </view>
+
+  <!-- 分类筛选 -->
+  <view class="filter-bar">
+    <view 
+      class="filter-item {{currentFilter === 'all' ? 'filter-item--active' : ''}}"
+      bindtap="setFilter"
+      data-filter="all"
+    >
+      全部
+    </view>
+    <view 
+      class="filter-item {{currentFilter === 'question' ? 'filter-item--active' : ''}}"
+      bindtap="setFilter"
+      data-filter="question"
+    >
+      问答
+    </view>
+    <view 
+      class="filter-item {{currentFilter === 'note' ? 'filter-item--active' : ''}}"
+      bindtap="setFilter"
+      data-filter="note"
+    >
+      笔记
+    </view>
+    <view 
+      class="filter-item {{currentFilter === 'share' ? 'filter-item--active' : ''}}"
+      bindtap="setFilter"
+      data-filter="share"
+    >
+      分享
+    </view>
+  </view>
+
+  <!-- 帖子列表 -->
+  <view class="post-list">
+    <view 
+      wx:for="{{postList}}" 
+      wx:key="id"
+      class="post-card"
+      bindtap="goToDetail"
+      data-id="{{item.id}}"
+    >
+      <!-- 用户信息 -->
+      <view class="post-header">
+        <t-avatar image="{{item.authorAvatar}}" size="small" />
+        <view class="author-info">
+          <text class="author-name">{{item.authorName}}</text>
+          <text class="post-time">{{item.publishTime}}</text>
+        </view>
+        <t-tag size="small" variant="light" class="post-tag">{{item.tag}}</t-tag>
+      </view>
+
+      <!-- 帖子内容 -->
+      <view class="post-content">
+        <text class="post-title">{{item.title}}</text>
+        <text class="post-summary">{{item.summary}}</text>
+        <view class="post-images" wx:if="{{item.images && item.images.length > 0}}">
+            <image 
+            wx:for="{{item.images}}" 
+            wx:for-item="img"
+            wx:key="*this"
+            src="{{img}}" 
+            mode="aspectFill" 
+            class="post-image"
+          />
+        </view>
+      </view>
+
+      <!-- 互动数据 -->
+      <view class="post-footer">
+        <view class="action-item" catchtap="onLike" data-id="{{item.id}}">
+          <t-icon name="{{item.isLiked ? 'heart-filled' : 'heart'}}" size="32rpx" color="{{item.isLiked ? '#FF4D4F' : '#999'}}" />
+          <text class="action-text {{item.isLiked ? 'action-text--liked' : ''}}">{{item.likeCount}}</text>
+        </view>
+        <view class="action-item">
+          <t-icon name="chat" size="32rpx" color="#999" />
+          <text class="action-text">{{item.commentCount}}</text>
+        </view>
+        <view class="action-item">
+          <t-icon name="share" size="32rpx" color="#999" />
+          <text class="action-text">分享</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{isLoadingMore}}">
+      <t-loading theme="circular" size="40rpx" />
+      <text class="load-text">加载中...</text>
+    </view>
+    
+    <!-- 到底提示 -->
+    <view class="no-more" wx:if="{{!hasMore && postList.length > 0}}">
+      <text>没有更多内容了</text>
+    </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{postList.length === 0 && !isRefreshing}}">
+      <t-icon name="info-circle" size="80rpx" color="#ccc" />
+      <text class="empty-text">暂无内容</text>
+    </view>
+  </view>
+
+  <!-- 发布按钮 -->
+  <view class="fab-button" bindtap="goToRelease">
+    <t-icon name="add" size="48rpx" color="#fff" />
+  </view>
+</view>

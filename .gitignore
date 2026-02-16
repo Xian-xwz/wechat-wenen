@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+miniprogram_npm/
+
+# IDE
+.codebuddy/
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Build
+dist/
