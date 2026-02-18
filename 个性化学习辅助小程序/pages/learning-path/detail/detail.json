@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "知识图谱",
+  "usingComponents": {
+    "t-navbar": "tdesign-miniprogram/navbar/navbar",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-tag": "tdesign-miniprogram/tag/tag",
+    "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-loading": "tdesign-miniprogram/loading/loading",
+    "knowledge-bubbles": "/components/knowledge-bubbles/index"
+  },
+  "backgroundColor": "#1A1A2E",
+  "navigationBarBackgroundColor": "#1A1A2E",
+  "navigationBarTextStyle": "white"
+}

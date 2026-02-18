@@ -2,13 +2,15 @@
   "pages": [
     "pages/home/index",
     "pages/search/index",
-    "pages/message/index",
-    "pages/chat/index",
-    "pages/my/index"
+    "pages/community/index",
+    "pages/assistant/index",
+    "pages/my/index",
+    "pages/anna-chat/index"
   ],
   "usingComponents": {
     "t-toast": "tdesign-miniprogram/toast/toast"
   },
+  "cloud": true,
   "subpackages": [
     {
       "root": "pages/my/info-edit",
@@ -48,6 +50,11 @@
     {
       "root": "pages/learning-path",
       "name": "learningPath",
+      "pages": ["index", "detail/detail"]
+    },
+    {
+      "root": "pages/data-center",
+      "name": "dataCenter",
       "pages": ["index"]
     }
   ],
@@ -69,11 +76,11 @@
         "text": "推荐"
       },
       {
-        "pagePath": "pages/message/index",
+        "pagePath": "pages/community/index",
         "text": "社区"
       },
       {
-        "pagePath": "pages/chat/index",
+        "pagePath": "pages/assistant/index",
         "text": "助手"
       },
       {

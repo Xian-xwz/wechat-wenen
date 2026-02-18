@@ -13,6 +13,30 @@ Thumbs.db
 
 # Logs
 *.log
+logs/
 
 # Build
 dist/
+
+# Sensitive files
+.env
+.env.local
+.env.production
+.env.development
+
+# Cache files
+.cache/
+error_log.json
+
+# Python
+__pycache__/
+*.pyc
+
+# Node.js
+.npm/
+.pnpm-debug.log*
+
+# Project specific
+data/
+cleaned_data/
+error_log.json

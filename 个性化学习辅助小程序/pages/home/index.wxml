@@ -54,9 +54,9 @@
         <view class="action-icon action-icon--path">🗺️</view>
         <text class="action-label">学习路径</text>
       </view>
-      <view class="action-card" bindtap="goToRecommend">
-        <view class="action-icon action-icon--recommend">💡</view>
-        <text class="action-label">个性推荐</text>
+      <view class="action-card" bindtap="goToDataCenter">
+        <view class="action-icon action-icon--data">📊</view>
+        <text class="action-label">数据中心</text>
       </view>
     </view>
 
@@ -67,18 +67,34 @@
         <text class="section-subtitle">各知识点能力评估</text>
       </view>
       <view class="chart-container radar-chart">
-        <ec-canvas id="radar-chart" canvas-id="radar-chart" ec="{{radarEc}}"></ec-canvas>
+        <ec-canvas id="radar-chart" canvas-id="radar-chart" echarts="{{echartsInstance}}" ec="{{radarEc}}"></ec-canvas>
       </view>
     </view>
 
-    <!-- 趋势折线图 -->
-    <view class="chart-section">
+    <!-- AI学习助手卡片 -->
+    <view class="ai-assistant-section">
       <view class="section-header">
-        <text class="section-title">学习趋势</text>
-        <text class="section-subtitle">近7日活跃度与正确率</text>
+        <text class="section-title">AI学习助手</text>
+        <text class="section-subtitle">Anna随时为你解答疑惑</text>
       </view>
-      <view class="chart-container trend-chart">
-        <ec-canvas id="trend-chart" canvas-id="trend-chart" ec="{{trendEc}}"></ec-canvas>
+      <view class="ai-card" bindtap="goToAnnaChat">
+        <view class="ai-card-bg">
+          <view class="ai-avatar">
+            <image src="/static/avatar1.png" mode="aspectFit" class="avatar-img" />
+          </view>
+          <view class="ai-content">
+            <text class="ai-greeting">Hi，我是你的学习助手Anna</text>
+            <text class="ai-suggestion">今天想了解闭包吗？</text>
+            <view class="ai-quick-actions">
+              <view class="quick-tag">变量提升</view>
+              <view class="quick-tag">原型链</view>
+              <view class="quick-tag">事件循环</view>
+            </view>
+          </view>
+          <view class="ai-arrow">
+            <t-icon name="chevron-right" size="40rpx" color="#FFFFFF" />
+          </view>
+        </view>
       </view>
     </view>
 

@@ -22,6 +22,12 @@ Page({
     // 学习功能入口
     learningGridList: [
       {
+        name: '在线刷题',
+        icon: 'edit',
+        type: 'quiz',
+        url: '/pages/quiz/index',
+      },
+      {
         name: '错题本',
         icon: 'file-copy',
         type: 'wrongbook',
@@ -34,16 +40,10 @@ Page({
         url: '/pages/learning-path/index',
       },
       {
-        name: '学习记录',
-        icon: 'time',
-        type: 'history',
-        url: '',
-      },
-      {
-        name: '我的收藏',
-        icon: 'star',
-        type: 'favorite',
-        url: '',
+        name: '数据中心',
+        icon: 'data',
+        type: 'dataCenter',
+        url: '/pages/data-center/index',
       },
     ],
 

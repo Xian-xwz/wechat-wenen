@@ -28,6 +28,14 @@ App({
       });
     });
 
+    // 初始化云开发
+    console.log('初始化云开发环境:', 'cloud1-4g1iiwm131db18a3');
+    wx.cloud.init({
+      env: 'cloud1-4g1iiwm131db18a3',
+      traceUser: true // 记录用户访问
+    });
+    console.log('云开发初始化完成');
+
     this.getUnreadNum();
     this.connect();
   },

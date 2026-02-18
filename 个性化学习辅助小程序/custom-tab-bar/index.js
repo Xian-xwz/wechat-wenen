@@ -17,12 +17,12 @@ Component({
       },
       {
         icon: 'chat',
-        value: 'message',
+        value: 'community',
         label: '社区',
       },
       {
         icon: 'app',
-        value: 'chat',
+        value: 'assistant',
         label: '助手',
       },
       {

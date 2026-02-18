@@ -1,0 +1,155 @@
+<!-- Anna AI对话页面 -->
+<view class="anna-chat-page">
+
+  <!-- 聊天消息区域 -->
+  <scroll-view 
+    class="chat-messages" 
+    scroll-y 
+    scroll-into-view="{{'msg-' + lastMsgId}}"
+    scroll-with-animation
+    enhanced
+    show-scrollbar="{{false}}"
+  >
+    <!-- 欢迎消息 -->
+    <view class="message-wrapper message-anna" id="msg-welcome">
+      <view class="message-avatar">
+        <image 
+          src="https://img.icons8.com/color/96/maple-leaf.png" 
+          class="avatar-img" 
+          mode="aspectFit"
+        />
+      </view>
+      <view class="message-content">
+        <view class="message-bubble">
+          <text class="message-text">你好！我是Anna，你的前端学习助手。\n\n我可以帮你解答JavaScript、HTML/CSS等问题，也可以根据你的知识图谱推荐学习路径。\n\n试试点击下面的快捷问题吧！</text>
+        </view>
+        <text class="message-time">现在</text>
+      </view>
+    </view>
+
+    <!-- 消息列表 -->
+    <block wx:for="{{messages}}" wx:key="id">
+      <view 
+        class="message-wrapper {{item.sender === 'user' ? 'message-user' : 'message-anna'}}" 
+        id="msg-{{item.id}}"
+      >
+        <view class="message-avatar" wx:if="{{item.sender === 'anna'}}">
+          <image 
+            src="https://img.icons8.com/color/96/maple-leaf.png" 
+            class="avatar-img" 
+            mode="aspectFit"
+          />
+        </view>
+        
+        <view class="message-content">
+          <!-- 🧠 深度思考区域（DeepSeek 风格） -->
+          <view wx:if="{{item.sender === 'anna' && item.thinkContent}}" class="think-box">
+            <view class="think-header" catchtap="toggleThink" data-index="{{index}}">
+              <view class="think-status">
+                <view class="think-icon {{item.isThinkCollapsed ? '' : 'rotate'}}"></view>
+                <text>{{item.isThinkCollapsed ? '已深度思考' : '正在深度思考...'}}</text>
+              </view>
+              <text class="think-tips" wx:if="{{item.isThinkCollapsed}}">点击展开</text>
+            </view>
+            
+            <view class="think-content {{item.isThinkCollapsed ? 'hide' : ''}}">
+              <text user-select="true">{{item.thinkContent}}</text>
+            </view>
+          </view>
+          
+          <!-- 最终回复内容 -->
+          <view class="message-bubble">
+            <view class="message-text-md">
+              <mp-html content="{{item.htmlContent}}" tag-style="{{tagStyle}}" bindlinktap="handleLinkTap" />
+            </view>
+            <t-loading 
+              wx:if="{{item.sender === 'anna' && item.loading}}" 
+              size="24rpx" 
+              theme="spinner" 
+              class="message-loading"
+            />
+          </view>
+          <text class="message-time">{{formatTime(item.timestamp)}}</text>
+        </view>
+
+        <view class="message-avatar" wx:if="{{item.sender === 'user'}}">
+          <image src="{{userAvatar}}" class="avatar-img" />
+        </view>
+      </view>
+
+    </block>
+    
+
+  </scroll-view>
+
+  <!-- 快捷问题标签 -->
+  <view class="quick-questions" wx:if="{{showQuickQuestions && quickQuestions.length > 0}}">
+    <scroll-view scroll-x class="quick-questions-scroll">
+      <view class="quick-questions-container">
+        <t-tag
+          wx:for="{{quickQuestions}}"
+          wx:key="id"
+          wx:for-index="index"
+          class="quick-tag {{item.action === 'clear' ? 'clear-tag' : ''}}"
+          shape="round"
+          variant="outline"
+          size="medium"
+          bindtap="sendQuickQuestion"
+          data-question="{{item.text}}"
+          data-index="{{index}}"
+        >
+          {{item.text}}
+        </t-tag>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 输入区域 -->
+  <view class="input-area">
+    <view class="input-wrapper">
+      <input
+        class="chat-input"
+        placeholder="输入你的问题..."
+        value="{{inputText}}"
+        bindinput="onInput"
+        bindconfirm="sendMessage"
+        confirm-type="send"
+        adjust-position="{{false}}"
+        cursor-spacing="20"
+      />
+      <t-button
+        class="send-button"
+        theme="primary"
+        shape="circle"
+        size="small"
+        bindtap="sendMessage"
+        disabled="{{!inputText.trim() || isThinking}}"
+      >
+        <t-icon name="send" size="32" />
+      </t-button>
+    </view>
+  </view>
+
+  <!-- 菜单弹出层 -->
+  <t-popup
+    visible="{{showMenuPopup}}"
+    placement="bottom"
+    bind:visible-change="onMenuPopupChange"
+  >
+    <view class="menu-popup">
+      <view class="menu-item" bindtap="clearChat">
+        <t-icon name="delete" size="40" />
+        <text class="menu-text">清空对话</text>
+      </view>
+      <view class="menu-item" bindtap="showHistory">
+        <t-icon name="history" size="40" />
+        <text class="menu-text">历史记录</text>
+      </view>
+      <view class="menu-item" bindtap="closeMenu">
+        <t-icon name="close" size="40" />
+        <text class="menu-text">取消</text>
+      </view>
+    </view>
+  </t-popup>
+
+</view>

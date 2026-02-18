@@ -1,0 +1,174 @@
+<!-- 知识图谱详情页 -->
+<view class="knowledge-detail-page">
+  
+  <!-- 顶部导航栏 -->
+  <t-navbar
+    title="知识图谱"
+    background="#1A1A2E"
+    left-icon="arrow-left"
+    bind:left-click="goBack"
+    title-color="#FFFFFF"
+    icon-color="#FFFFFF"
+  />
+
+  <!-- 页面内容 -->
+  <scroll-view class="page-content" scroll-y>
+    
+    <!-- 概览区域 -->
+    <view class="overview-section" wx:if="{{knowledgeNode}}">
+      <view class="overview-header">
+        <text class="node-title">{{knowledgeNode.name}}</text>
+        <t-tag 
+          class="node-level-tag" 
+          theme="{{getLevelColor(knowledgeNode.level)}}" 
+          size="small"
+        >
+          {{knowledgeNode.level}}
+        </t-tag>
+      </view>
+      
+      <view class="overview-meta">
+        <view class="meta-item">
+          <t-icon name="bookmark" size="32" color="#4F8EF7" />
+          <text class="meta-label">所属模块</text>
+          <text class="meta-value">{{knowledgeNode.module}}</text>
+        </view>
+        
+        <view class="meta-item">
+          <t-icon name="chart-line" size="32" color="#52C41A" />
+          <text class="meta-label">掌握进度</text>
+          <text class="meta-value">{{knowledgeNode.progress || 0}}%</text>
+        </view>
+        
+        <view class="meta-item">
+          <t-icon name="time" size="32" color="#FAAD14" />
+          <text class="meta-label">学习时长</text>
+          <text class="meta-value">{{knowledgeNode.studyTime || '0分钟'}}</text>
+        </view>
+      </view>
+      
+      <view class="overview-description" wx:if="{{knowledgeNode.description}}">
+        <text class="description-text">{{knowledgeNode.description}}</text>
+      </view>
+    </view>
+
+    <!-- 知识图谱气泡区 -->
+    <view class="bubbles-section">
+      <text class="section-title">知识点星系</text>
+      <text class="section-subtitle">单击显示摘要，长按召唤Anna</text>
+      
+      <knowledge-bubbles
+        id="knowledgeBubbles"
+        knowledge-points="{{knowledgePoints}}"
+        layout-config="{{layoutConfig}}"
+        show-connections="{{true}}"
+        bind:bubbletap="onBubbleTap"
+        bind:bubblelongpress="onBubbleLongPress"
+      />
+      
+      <!-- 气泡图例 -->
+      <view class="bubble-legend">
+        <view class="legend-item">
+          <view class="legend-color bubble-color-gray"></view>
+          <text class="legend-text">未开始</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-color bubble-color-light-blue"></view>
+          <text class="legend-text">学习中</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-color bubble-color-blue"></view>
+          <text class="legend-text">良好</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-color bubble-color-green"></view>
+          <text class="legend-text">掌握</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部操作栏 -->
+    <view class="action-section">
+      <t-button
+        class="action-button"
+        theme="primary"
+        size="large"
+        block
+        bindtap="startLearning"
+      >
+        <t-icon name="play-circle" size="40" slot="icon" />
+        开始学习
+      </t-button>
+      
+      <view class="action-row">
+        <t-button
+          class="action-button secondary"
+          theme="default"
+          size="medium"
+          bindtap="startQuiz"
+        >
+          <t-icon name="quiz" size="32" slot="icon" />
+          一键测验
+        </t-button>
+        
+        <t-button
+          class="action-button secondary"
+          theme="default"
+          size="medium"
+          bindtap="markAsComplete"
+        >
+          <t-icon name="check-circle" size="32" slot="icon" />
+          标记完成
+        </t-button>
+      </view>
+    </view>
+    
+  </scroll-view>
+
+  <!-- 知识点摘要弹窗 -->
+  <t-popup
+    visible="{{showSummaryPopup}}"
+    placement="bottom"
+    bind:visible-change="onSummaryPopupChange"
+  >
+    <view class="summary-popup">
+      <view class="popup-header">
+        <text class="popup-title">{{selectedBubble.name}}</text>
+        <t-icon name="close" size="40" bindtap="closeSummary" />
+      </view>
+      
+      <view class="popup-content">
+        <text class="summary-text">{{selectedBubble.description || '暂无详细描述'}}</text>
+        
+        <view class="summary-meta">
+          <t-tag theme="primary" size="small">{{selectedBubble.level}}</t-tag>
+          <t-tag theme="success" size="small" wx:if="{{selectedBubble.accuracy}}">
+            正确率 {{selectedBubble.accuracy}}%
+          </t-tag>
+        </view>
+        
+        <view class="summary-actions">
+          <t-button
+            size="small"
+            theme="primary"
+            variant="outline"
+            bindtap="askAnnaAboutThis"
+          >
+            <t-icon name="chat" size="28" slot="icon" />
+            问Anna
+          </t-button>
+          
+          <t-button
+            size="small"
+            theme="primary"
+            bindtap="startLearningThis"
+          >
+            <t-icon name="play-circle" size="28" slot="icon" />
+            学习这个
+          </t-button>
+        </view>
+      </view>
+    </view>
+  </t-popup>
+
+</view>

@@ -1,5 +1,5 @@
 <t-navbar title="数据中心" left-arrow />
-<view class="data-center">
+<scroll-view class="data-center" scroll-y enable-flex>
   <view class="card first">
     <view class="card-header">
       <view class="card-header__title"> 整体情况 </view>
@@ -50,4 +50,4 @@
       <t-empty icon="info-circle-filled" description="Empty Data" />
     </view>
   </view>
-</view>
+</scroll-view>

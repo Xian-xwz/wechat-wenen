@@ -1,0 +1,55 @@
+<!-- 知识图谱气泡组件 -->
+<view class="knowledge-bubbles-container" style="width: 100%; height: {{componentHeight}}rpx;">
+  
+  <!-- 背景星空渐变 -->
+  <view class="bubbles-background"></view>
+  
+  <!-- 连线（中心到各个气泡） -->
+  <view wx:if="{{showConnections && connectionLines.length > 0}}" class="connections-layer">
+    <view 
+      wx:for="{{connectionLines}}" 
+      wx:key="index" 
+      class="connection-line"
+      style="left: {{item.startX}}rpx; top: {{item.startY}}rpx; width: {{item.distance}}rpx; transform: rotate({{item.angle}}rad);"
+    ></view>
+  </view>
+  
+  <!-- 中心主题气泡 -->
+  <view 
+    wx:if="{{centerBubble}}" 
+    class="center-bubble bubble-animation"
+    style="left: {{centerBubble.x - centerBubble.r}}rpx; top: {{centerBubble.y - centerBubble.r}}rpx; width: {{centerBubble.r * 2}}rpx; height: {{centerBubble.r * 2}}rpx;"
+    data-index="0"
+    data-is-center="true"
+    bindtap="onBubbleTap"
+    bindlongpress="onBubbleLongPress"
+  >
+    <view class="bubble-content">
+      <text class="bubble-title">{{centerBubble.name}}</text>
+      <text class="bubble-subtitle">{{centerBubble.level}}</text>
+    </view>
+    <!-- 发光效果 -->
+    <view class="bubble-glow"></view>
+  </view>
+  
+  <!-- 周围知识气泡 -->
+  <view 
+    wx:for="{{bubblePositions}}" 
+    wx:key="index" 
+    class="knowledge-bubble bubble-animation {{getBubbleColorClass(item)}} {{getBubbleSizeClass(item)}}"
+    style="left: {{item.x - item.r}}rpx; top: {{item.y - item.r}}rpx; width: {{item.r * 2}}rpx; height: {{item.r * 2}}rpx;"
+    data-index="{{index}}"
+    data-is-center="false"
+    bindtap="onBubbleTap"
+    bindlongpress="onBubbleLongPress"
+  >
+    <view class="bubble-content">
+      <text class="bubble-title">{{item.name}}</text>
+      <view class="bubble-meta">
+        <text class="bubble-level">{{item.level}}</text>
+        <text class="bubble-accuracy" wx:if="{{item.accuracy !== undefined}}">{{item.accuracy}}%</text>
+      </view>
+    </view>
+  </view>
+  
+</view>

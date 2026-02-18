@@ -28,13 +28,13 @@ Component({
         isSidebar: false,
       },
       {
-        title: '消息列表页',
-        url: 'pages/message/index',
+        title: '知识社区页',
+        url: 'pages/community/index',
         isSidebar: true,
       },
       {
-        title: '对话页',
-        url: 'pages/chat/index',
+        title: 'AI助手页',
+        url: 'pages/assistant/index',
         isSidebar: false,
       },
       {
@@ -54,7 +54,7 @@ Component({
       },
       {
         title: '数据图表页',
-        url: 'pages/dataCenter/index',
+        url: 'pages/data-center/index',
         isSidebar: false,
       },
       {

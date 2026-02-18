@@ -1,0 +1,484 @@
+/* Anna AI对话页面样式 */
+
+.anna-chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #F5F5F5;
+}
+
+/* 聊天消息区域 */
+.chat-messages {
+  flex: 1;
+  padding: 20rpx 30rpx;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.message-wrapper {
+  display: flex;
+  margin-bottom: 40rpx;
+  align-items: flex-start;
+}
+
+/* 修正后的用户气泡布局 */
+.message-user {
+  display: flex;
+  flex-direction: row; /* 恢复正常方向 */
+  justify-content: flex-end; /* 明确靠右对齐 */
+  padding-right: 20rpx;
+  align-items: flex-start;
+}
+
+.message-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  margin: 0 20rpx;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4F8EF7 0%, #7C3AED 100%);
+}
+
+.message-content {
+  max-width: 500rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.message-bubble {
+  padding: 20rpx 30rpx;
+  border-radius: 20rpx;
+  position: relative;
+  min-height: 60rpx;
+  display: flex;
+  align-items: center;
+  
+  /* 🚀 新增/确认以下约束：防止内容撑爆 */
+  max-width: 100%;       /* 确保不超过父容器 */
+  overflow: hidden;      /* 超出部分强制隐藏（配合内部滚动） */
+  box-sizing: border-box; /* 边框计算在内 */
+  
+  /* 确保文字能换行 */
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  
+  /* 🚀 优化气泡体验 */
+  min-width: 60rpx; /* 给个最小宽度，防止压扁 */
+  transition: all 0.2s ease; /* 增加平滑过渡 */
+}
+
+/* 2. Anna Agent 气泡 (浅蓝色背景 + 深色字) */
+.message-anna .message-bubble {
+  background-color: #e3f2fd !important; /* 极其舒适的浅蓝 */
+  color: #0d1117 !important;           /* 近似黑色的深蓝字 */
+  border-radius: 4rpx 20rpx 20rpx 20rpx;
+  padding: 24rpx;
+  max-width: 100%;
+  /* 移除之前的渐变背景 */
+  background: #e3f2fd !important; 
+}
+
+/* 1. 用户气泡 (浅灰色背景 + 深色字) */
+.message-user .message-bubble {
+  background-color: #f2f4f7 !important; /* 浅灰 */
+  color: #1f2937 !important;           /* 深灰黑字体 */
+  border-radius: 20rpx 4rpx 20rpx 20rpx;
+  padding: 24rpx;
+  max-width: 100%;
+  box-shadow: none; /* 去掉阴影更扁平 */
+}
+
+.message-text {
+  font-size: 28rpx;
+  line-height: 1.5;
+  color: #0d1117; /* 改为深色以适应浅色背景 */
+}
+
+.message-user .message-text {
+  color: #FFFFFF; /* 用户气泡文字改为白色 */
+}
+
+/* 强制修正 mp-html 在用户气泡里的字体颜色 */
+.message-user mp-html {
+  color: #ffffff; /* 确保文字是白色的 */
+}
+
+/* 3. 修正 mp-html 在浅色背景下的默认字体颜色 */
+.message-text-md {
+  color: #0d1117 !important; /* 强制让正文变黑 */
+  font-size: 30rpx;          /* 字体稍微调大一点点，阅读更舒服 */
+  line-height: 1.7;          /* 增加行高 */
+  width: 100%;
+  display: block;
+}
+
+/* 4. 链接颜色优化 */
+.message-text-md a {
+  color: #007aff !important; /* 链接变成鲜艳的蓝色 */
+}
+
+.message-time {
+  font-size: 22rpx;
+  color: #999999;
+  margin-top: 8rpx;
+  align-self: flex-start;
+}
+
+.message-user .message-time {
+  align-self: flex-end;
+}
+
+/* Anna思考指示器 */
+.thinking-indicator {
+  display: flex;
+  align-items: center;
+  margin: 30rpx 0;
+  padding-left: 120rpx; /* 对齐Anna头像位置 */
+}
+
+.thinking-text {
+  font-size: 26rpx;
+  color: #666666;
+  margin-left: 20rpx;
+}
+
+.message-loading {
+  margin-left: 20rpx;
+}
+
+/* 快捷问题区域 */
+.quick-questions {
+  padding: 20rpx 30rpx;
+  background: #FFFFFF;
+  border-top: 2rpx solid #EEEEEE;
+}
+
+.quick-questions-scroll {
+  white-space: nowrap;
+}
+
+.quick-questions-container {
+  display: inline-flex;
+  gap: 20rpx;
+}
+
+.quick-tag {
+  background: #F8F9FA !important;
+  border-color: #E9ECEF !important;
+  color: #495057 !important;
+  font-size: 24rpx !important;
+  padding: 12rpx 24rpx !important;
+}
+
+.quick-tag:active {
+  background: #E9ECEF !important;
+}
+
+/* 🗑️ 清除记录按钮特殊样式 */
+.clear-tag {
+  background: #fff2f0 !important;
+  border-color: #ff4d4f !important;
+  color: #ff4d4f !important;
+}
+
+.clear-tag:active {
+  background: #ffccc7 !important;
+}
+
+/* 输入区域 */
+.input-area {
+  padding: 20rpx 30rpx;
+  background: #FFFFFF;
+  border-top: 2rpx solid #EEEEEE;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.chat-input {
+  flex: 1;
+  height: 80rpx;
+  padding: 0 30rpx;
+  background: #F8F9FA;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  color: #333333;
+  border: 2rpx solid transparent;
+}
+
+.chat-input:focus {
+  border-color: #4F8EF7;
+  background: #FFFFFF;
+}
+
+.chat-input::placeholder {
+  color: #999999;
+}
+
+.send-button {
+  width: 80rpx !important;
+  height: 80rpx !important;
+  min-width: auto !important;
+  background: linear-gradient(135deg, #4F8EF7 0%, #7C3AED 100%) !important;
+  border: none !important;
+}
+
+.send-button[disabled] {
+  opacity: 0.5 !important;
+}
+
+/* 菜单弹出层 */
+.menu-popup {
+  padding: 40rpx 0;
+  background: #FFFFFF;
+  border-radius: 20rpx 20rpx 0 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  border-bottom: 2rpx solid #F5F5F5;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-text {
+  font-size: 28rpx;
+  color: #333333;
+  margin-left: 20rpx;
+  flex: 1;
+}
+
+/* 响应式适配 */
+@media (max-width: 640rpx) {
+  .chat-messages {
+    padding: 20rpx;
+  }
+  
+  .message-content {
+    max-width: 400rpx;
+  }
+  
+  .message-bubble {
+    padding: 16rpx 24rpx;
+  }
+  
+  .message-text {
+    font-size: 26rpx;
+  }
+}
+
+/* 🚀 Anna云函数测试卡片样式 */
+.test-result-card {
+  margin: 20rpx 30rpx;
+  padding: 30rpx;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+  border-left: 8rpx solid #4F8EF7;
+}
+
+.test-result-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 2rpx solid #F5F5F5;
+}
+
+.test-result-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333333;
+  margin-left: 15rpx;
+}
+
+.test-result-content {
+  margin-bottom: 20rpx;
+}
+
+.test-reply-text {
+  font-size: 26rpx;
+  line-height: 1.5;
+  color: #666666;
+  word-break: break-word;
+}
+
+.test-result-error {
+  padding: 15rpx;
+  background: #FFF2F0;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  border: 2rpx solid #FFCCC7;
+}
+
+.error-text {
+  font-size: 24rpx;
+  color: #FF4D4F;
+  line-height: 1.4;
+}
+
+.test-result-footer {
+  text-align: center;
+  padding-top: 15rpx;
+  border-top: 2rpx solid #F5F5F5;
+}
+
+.test-tip {
+  font-size: 22rpx;
+  color: #999999;
+  font-style: italic;
+}
+
+/* =========================================
+   🧠 深度思考 UI 样式 (对标 DeepSeek)
+========================================= */
+.think-box {
+  background-color: #f7f9fc; /* 极客灰底色 */
+  border-radius: 12rpx;
+  margin-top: 8rpx;
+  margin-bottom: 16rpx;
+  padding: 16rpx 24rpx;
+  border-left: 6rpx solid #e0e6ed; /* 左侧引用线 */
+}
+
+.think-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.think-status {
+  display: flex;
+  align-items: center;
+  font-size: 26rpx;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* 抛弃庞大的图标库，用纯 CSS 画一个精致的小箭头 */
+.think-icon {
+  width: 0;
+  height: 0;
+  border-left: 8rpx solid transparent;
+  border-right: 8rpx solid transparent;
+  border-top: 10rpx solid #6b7280;
+  margin-right: 14rpx;
+  transition: transform 0.3s ease;
+  transform: rotate(-90deg); /* 默认折叠状态向右 */
+}
+
+/* 展开状态的箭头旋转 */
+.think-icon.rotate {
+  transform: rotate(0deg); 
+}
+
+.think-tips {
+  font-size: 22rpx;
+  color: #9ca3af;
+}
+
+.think-content {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  color: #4b5563; /* 比正文颜色稍浅 */
+  line-height: 1.6;
+  word-break: break-all;
+  border-top: 1rpx dashed #e5e7eb; /* 分割线 */
+  padding-top: 16rpx;
+}
+
+/* 隐藏状态 */
+.think-content.hide {
+  display: none;
+}
+
+/* =========================================
+   💻 DeepSeek 风格代码块高亮 (覆盖 mp-html 样式)
+   ========================================= */
+
+/* 💻 代码块保持深色模式 (对比度极其强烈，很好看) 
+   确保之前的 ._pre 样式还在，这里微调一下阴影 
+*/
+page ._pre {
+  background: #282c34 !important; /* 深色背景 */
+  color: #abb2bf !important;      /* 浅灰色字体 */
+  padding: 20rpx !important;
+  border-radius: 12rpx !important;
+  margin: 20rpx 0 !important;
+  font-family: Consolas, Monaco, monospace !important;
+  white-space: pre !important;
+  overflow-x: auto !important; /* 支持横向滚动 */
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1); /* 给代码块加个小阴影，立体感 */
+}
+
+/* 强制覆盖 code 标签 */
+page ._code {
+  font-family: Consolas, Monaco, monospace !important;
+  font-size: 26rpx !important;
+  color: #d4d4d4 !important; /* 浅灰色字体 */
+}
+
+/* 行内代码块 (比如 `var`) */
+page ._span._code {
+  background: #f0f0f0 !important;
+  color: #c7254e !important;
+  padding: 4rpx 8rpx !important;
+  border-radius: 6rpx !important;
+  margin: 0 4rpx !important;
+}
+
+/* 隐藏 mp-html 默认的加载条（防止闪烁） */
+._mp_html_loading {
+  display: none;
+}
+
+/* =========================================
+   🚑 紧急修复：文字颜色与背景对比度
+   ========================================= */
+
+/* 1. 修复用户气泡 (背景改同款浅灰 #f7f9fc，文字改纯黑) */
+.message-user .message-bubble {
+  background-color: #f7f9fc !important; /* 思维链同款浅灰 */
+  color: #000000 !important;           /* 纯黑字体，确保清晰 */
+  border: 1rpx solid #e5e7eb;          /* 加个微弱的边框，防止和背景融为一体 */
+  box-shadow: none !important;
+}
+
+/* 强行修复用户气泡里的 mp-html 文字颜色 */
+.message-user .message-text-md,
+.message-user mp-html,
+.message-user ._view, 
+.message-user view {
+  color: #000000 !important;
+}
+
+/* 2. 修复思维链标题 (折叠栏文字看不清的问题) */
+.think-header .think-status {
+  color: #4b5563 !important; /* 深灰色，确保看得见 */
+  font-weight: 600;
+}
+
+.think-header .think-tips {
+  color: #9ca3af !important; /* 浅灰色提示 */
+}
+
+/* 3. 再次确认 Anna 气泡文字颜色 (防止变白) */
+.message-anna .message-bubble {
+  color: #0d1117 !important; /* 深黑蓝 */
+}
+
+/* 4. 修复思维链展开后的文字颜色 */
+.think-content {
+  color: #4b5563 !important; /* 内容深灰 */
+}

@@ -165,6 +165,7 @@
       &--wrong { background-color: rgba(255, 77, 79, 0.1); }
       &--path { background-color: rgba(82, 196, 26, 0.1); }
       &--recommend { background-color: rgba(250, 173, 20, 0.1); }
+      &--data { background-color: rgba(106, 81, 255, 0.1); }
     }
 
     .action-label {
@@ -211,6 +212,113 @@
 
     &.trend-chart {
       height: 400rpx;
+    }
+  }
+}
+
+// AI学习助手区域
+.ai-assistant-section {
+  margin: 0 24rpx 24rpx;
+  box-sizing: border-box;
+
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16rpx;
+
+    .section-title {
+      font-size: 32rpx;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .section-subtitle {
+      font-size: 24rpx;
+      color: #999;
+      margin-top: 4rpx;
+    }
+  }
+
+  .ai-card {
+    border-radius: 24rpx;
+    overflow: hidden;
+    box-shadow: 0 8rpx 32rpx rgba(79, 142, 247, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+
+    &:active {
+      transform: scale(0.98);
+      box-shadow: 0 4rpx 16rpx rgba(79, 142, 247, 0.2);
+    }
+
+    .ai-card-bg {
+      background: linear-gradient(135deg, #4F8EF7 0%, #7C3AED 100%);
+      padding: 32rpx;
+      display: flex;
+      align-items: center;
+      position: relative;
+      min-height: 200rpx;
+    }
+
+    .ai-avatar {
+      width: 120rpx;
+      height: 120rpx;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-right: 24rpx;
+      overflow: hidden;
+      border: 4rpx solid rgba(255, 255, 255, 0.3);
+
+      .avatar-img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .ai-content {
+      flex: 1;
+
+      .ai-greeting {
+        display: block;
+        font-size: 32rpx;
+        font-weight: 600;
+        color: #FFFFFF;
+        margin-bottom: 8rpx;
+      }
+
+      .ai-suggestion {
+        display: block;
+        font-size: 26rpx;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 16rpx;
+      }
+
+      .ai-quick-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12rpx;
+
+        .quick-tag {
+          background-color: rgba(255, 255, 255, 0.2);
+          color: #FFFFFF;
+          font-size: 22rpx;
+          padding: 8rpx 16rpx;
+          border-radius: 20rpx;
+          backdrop-filter: blur(10rpx);
+        }
+      }
+    }
+
+    .ai-arrow {
+      position: absolute;
+      right: 32rpx;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.8;
     }
   }
 }

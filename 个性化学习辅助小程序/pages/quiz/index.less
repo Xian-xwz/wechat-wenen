@@ -12,6 +12,24 @@ page {
   box-sizing: border-box;
 }
 
+// 加载状态
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  padding: 40rpx;
+
+  .error-text {
+    margin-top: 20rpx;
+    margin-bottom: 30rpx;
+    font-size: 28rpx;
+    color: #666;
+  }
+}
+
 // 进度头部
 .quiz-header {
   background-color: #fff;
@@ -26,10 +44,21 @@ page {
     align-items: center;
     margin-bottom: 16rpx;
 
-    .question-number {
-      font-size: 28rpx;
-      color: #333;
-      font-weight: 500;
+    .progress-left {
+      display: flex;
+      align-items: center;
+      gap: 16rpx;
+
+      .question-number {
+        font-size: 28rpx;
+        color: #333;
+        font-weight: 500;
+      }
+
+      .data-source-tag {
+        font-size: 20rpx;
+        padding: 4rpx 12rpx;
+      }
     }
 
     .timer {

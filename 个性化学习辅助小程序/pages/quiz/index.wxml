@@ -2,19 +2,45 @@
 <t-navbar title="在线答题" left-arrow />
 
 <view class="quiz-page">
-  <!-- 进度头部 -->
-  <view class="quiz-header">
-    <view class="progress-info">
-      <text class="question-number">题目 {{currentIndex + 1}}/{{questions.length}}</text>
-      <view class="timer">
-        <t-icon name="time" size="32rpx" color="#666" />
-        <text class="timer-text">{{formatTime(timer)}}</text>
+  
+  <!-- 加载状态 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <t-loading theme="spinner" size="40rpx" text="正在加载题目..." />
+  </view>
+
+  <!-- 错误状态 -->
+  <view class="error-container" wx:elif="{{loadError}}">
+    <t-icon name="error-circle" size="80rpx" color="#FF4D4F" />
+    <text class="error-text">{{errorMsg}}</text>
+    <t-button theme="primary" size="medium" bindtap="retryLoad">重新加载</t-button>
+  </view>
+
+  <!-- 正常答题界面 -->
+  <block wx:else>
+    <!-- 进度头部 -->
+    <view class="quiz-header">
+      <view class="progress-info">
+        <view class="progress-left">
+          <text class="question-number">题目 {{currentIndex + 1}}/{{questions.length}}</text>
+          <t-tag 
+            wx:if="{{dataSource}}" 
+            size="small" 
+            variant="outline" 
+            theme="{{dataSource === '云端' ? 'success' : 'warning'}}"
+            class="data-source-tag"
+          >
+            {{dataSource}}
+          </t-tag>
+        </view>
+        <view class="timer">
+          <t-icon name="time" size="32rpx" color="#666" />
+          <text class="timer-text">{{formattedTime}}</text>
+        </view>
+      </view>
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{(currentIndex + 1) / questions.length * 100}}%"></view>
       </view>
     </view>
-    <view class="progress-bar">
-      <view class="progress-fill" style="width: {{(currentIndex + 1) / questions.length * 100}}%"></view>
-    </view>
-  </view>
 
   <!-- 题目内容区 -->
   <scroll-view class="quiz-content" scroll-y>
@@ -101,4 +127,5 @@
       </view>
     </view>
   </view>
+  </block>
 </view>

@@ -22,12 +22,8 @@ Page({
     },
     
     // 雷达图配置
+    echartsInstance: echarts,  // ECharts 实例
     radarEc: {
-      lazyLoad: true
-    },
-    
-    // 折线图配置
-    trendEc: {
       lazyLoad: true
     },
     
@@ -61,11 +57,19 @@ Page({
         points: 15,
         completed: false
       }
-    ]
+    ],
+    
+    // 图表就绪标志
+    chartsReady: false
   },
 
   onLoad() {
-    // 页面加载时不立即初始化图表，等待组件准备就绪
+    // 检查 ECharts 是否加载成功
+    if (echarts) {
+      console.log('[Dashboard] ECharts 加载成功，版本:', echarts.version);
+    } else {
+      console.error('[Dashboard] ECharts 加载失败，请检查 npm 构建');
+    }
   },
 
   onReady() {
@@ -75,27 +79,41 @@ Page({
   },
 
   // 初始化图表
-  initCharts() {
+  initCharts(retryCount = 0) {
+    const maxRetries = 3;
+    
+    // 检查 echarts 是否已加载
     if (!echarts) {
-      console.warn('[Dashboard] ECharts 未加载');
+      console.warn('[Dashboard] ECharts 未加载，图表无法初始化');
+      return;
+    }
+    
+    // 检查雷达图组件是否存在
+    this.radarChart = this.selectComponent('#radar-chart');
+    
+    if (!this.radarChart) {
+      if (retryCount < maxRetries) {
+        console.warn(`[Dashboard] 雷达图组件未找到，延迟重试 (${retryCount + 1}/${maxRetries})...`);
+        setTimeout(() => this.initCharts(retryCount + 1), 500);
+      } else {
+        console.error('[Dashboard] 雷达图组件初始化失败，已达最大重试次数');
+      }
       return;
     }
 
-    // 初始化雷达图
-    this.radarChart = this.selectComponent('#radar-chart');
-    if (this.radarChart) {
+    try {
+      // 初始化雷达图
       this.initRadarChart();
-    }
-
-    // 初始化趋势图
-    this.trendChart = this.selectComponent('#trend-chart');
-    if (this.trendChart) {
-      this.initTrendChart();
+      this.setData({ chartsReady: true });
+    } catch (error) {
+      console.error('[Dashboard] 图表初始化失败:', error);
     }
   },
 
   // 初始化雷达图
   initRadarChart() {
+    if (!this.radarChart || !echarts) return;
+    
     const option = getRadarOption(
       [80, 70, 90, 60, 85, 75], // 各维度掌握度
       [
@@ -108,37 +126,28 @@ Page({
       ]
     );
     
-    this.radarChart.init((canvas, width, height, dpr) => {
-      const chart = echarts.init(canvas, null, {
-        width: width,
-        height: height,
-        devicePixelRatio: dpr
+    try {
+      this.radarChart.init((canvas, width, height, dpr) => {
+        if (!canvas) {
+          console.warn('[Dashboard] Canvas 未就绪');
+          return null;
+        }
+        const chart = echarts.init(canvas, null, {
+          width: width,
+          height: height,
+          devicePixelRatio: dpr
+        });
+        canvas.setChart(chart);
+        chart.setOption(option);
+        this.radarChartInstance = chart;  // 保存实例
+        return chart;
       });
-      canvas.setChart(chart);
-      chart.setOption(option);
-      return chart;
-    });
+    } catch (error) {
+      console.error('[Dashboard] 雷达图初始化失败:', error);
+    }
   },
 
-  // 初始化趋势图
-  initTrendChart() {
-    const option = getTrendOption(
-      ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-      [65, 78, 82, 70, 88, 92, 85], // 活跃度
-      [72, 75, 80, 78, 85, 88, 82]  // 正确率
-    );
-    
-    this.trendChart.init((canvas, width, height, dpr) => {
-      const chart = echarts.init(canvas, null, {
-        width: width,
-        height: height,
-        devicePixelRatio: dpr
-      });
-      canvas.setChart(chart);
-      chart.setOption(option);
-      return chart;
-    });
-  },
+
 
   // 加载数据
   async loadData() {
@@ -197,6 +206,20 @@ Page({
     });
   },
 
+  // 跳转到数据中心
+  goToDataCenter() {
+    wx.navigateTo({
+      url: '/pages/data-center/index'
+    });
+  },
+
+  // 跳转到Anna AI对话页面
+  goToAnnaChat() {
+    wx.navigateTo({
+      url: '/pages/anna-chat/index'
+    });
+  },
+
   // 切换任务完成状态
   toggleTask(e) {
     const { id } = e.currentTarget.dataset;
@@ -224,5 +247,15 @@ Page({
       content: '全部任务功能开发中',
       duration: 2000
     });
+  },
+
+  // 页面卸载时清理图表实例
+  onUnload() {
+    // 销毁图表实例
+    if (this.radarChartInstance) {
+      this.radarChartInstance.dispose();
+      this.radarChartInstance = null;
+    }
+
   }
 });
